@@ -26,6 +26,20 @@ def aestrela(Labirinto):
         if celula == destino:
             break
         
+        for direcao in "NSEW":
+            if Labirinto.maze_mao[celula][direcao] == 1:
+                linha_celula = celula[0]
+                coluna_celula = celula[1]
+                if direcao == "N":
+                    proxima_celula = (linha_celula - 1, coluna_celula)
+                elif direcao == "S":
+                    proxima_celula = (linha_celula + 1, coluna_celula)
+                elif direcao == "W":
+                    proxima_celula = (linha_celula, coluna_celula - 1)
+                elif direcao == "E":
+                    proxima_celula = (linha_celula, coluna_celula + 1)
+                
+            
 
 
 
