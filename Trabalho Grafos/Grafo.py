@@ -4,7 +4,17 @@ def h_score(celula,destino):
     linhac = celula[0]
     colunac = celula[1]
     linhad = destino[0]
+    colunad = destino[1]
     return abs(colunac - colunad) + abs(linhac - linhad)
+
+def aestrela(Labirinto):
+    f_score = {celula: float("inf") for celula in Labirinto.grid}
+    g_score = {}
+    celula_inicial = (Labirinto.rows, Labirinto.cols)
+    g_score[celula_inicial] = 0
+    f_score[celula_inicial] = g_score[celula_inicial] + h_score(celula_inicial, destino)
+    print(f_score)
+
 
 labirinto = maze();
 labirinto.CreateMaze()
