@@ -20,7 +20,13 @@ def aestrela(Labirinto):
     item = (f_score[celula_inicial], h_score[celula_inicial, destino], celula_inicial)
     fila.put(item)
 
-    
+    while not fila.empty():
+        celula = fila.get()
+
+        if celula == destino:
+            break
+        
+
 
 
 
