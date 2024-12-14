@@ -1,4 +1,5 @@
 from pyamaze import maze, agent
+from queue import PriorityQueue
 
 def h_score(celula,destino):
     linhac = celula[0]
@@ -14,6 +15,13 @@ def aestrela(Labirinto):
     g_score[celula_inicial] = 0
     f_score[celula_inicial] = g_score[celula_inicial] + h_score(celula_inicial, destino)
     print(f_score)
+
+    fila = PriorityQueue()
+    item = (f_score[celula_inicial], h_score[celula_inicial, destino], celula_inicial)
+    fila.put(item)
+
+    
+
 
 
 labirinto = maze();
