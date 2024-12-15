@@ -20,6 +20,8 @@ def aestrela(Labirinto):
     item = (f_score[celula_inicial], h_score[celula_inicial, destino], celula_inicial)
     fila.put(item)
 
+    caminho = {}
+
     while not fila.empty():
         celula = fila.get()
 
@@ -41,12 +43,22 @@ def aestrela(Labirinto):
 
                 novo_g_score = g_score[celula] + 1
                 novo_f_score = novo_g_score + h_score(proxima_celula, destino)
-                
+
                 if novo_f_score < f_score[proxima_celula]:
                     f_score[proxima_celula] = novo_f_score
                     g_score[proxima_celula] = novo_g_score
                     item = ()
                     fila.put(novo_f_score, h_score(proxima_celula, destino), proxima_celula)
+                    caminho[proxima_celula] = celula
+
+        caminho_final = {}
+
+        celula_analisada = destino
+        
+        while celula_analisada != celula_inicial:
+            caminho_final[caminho[celula_analisada]] = celula_analisada
+            celula_analisada = caminho[celula_analisada]
+        return caminho
                 
             
 
