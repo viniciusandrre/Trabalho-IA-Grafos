@@ -38,6 +38,15 @@ def aestrela(Labirinto):
                     proxima_celula = (linha_celula, coluna_celula - 1)
                 elif direcao == "E":
                     proxima_celula = (linha_celula, coluna_celula + 1)
+
+                novo_g_score = g_score[celula] + 1
+                novo_f_score = novo_g_score + h_score(proxima_celula, destino)
+                
+                if novo_f_score < f_score[proxima_celula]:
+                    f_score[proxima_celula] = novo_f_score
+                    g_score[proxima_celula] = novo_g_score
+                    item = ()
+                    fila.put(novo_f_score, h_score(proxima_celula, destino), proxima_celula)
                 
             
 
