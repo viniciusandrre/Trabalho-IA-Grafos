@@ -1,6 +1,8 @@
 from pyamaze import maze, agent
 from queue import PriorityQueue
 
+destino = (1,1)
+
 def h_score(celula,destino):
     linhac = celula[0]
     colunac = celula[1]
@@ -8,28 +10,28 @@ def h_score(celula,destino):
     colunad = destino[1]
     return abs(colunac - colunad) + abs(linhac - linhad)
 
-def aestrela(Labirinto):
-    f_score = {celula: float("inf") for celula in Labirinto.grid}
+def aestrela(labirinto):
+    f_score = {celula: float("inf") for celula in labirinto.grid}
     g_score = {}
-    celula_inicial = (Labirinto.rows, Labirinto.cols)
+    celula_inicial = (labirinto.rows, labirinto.cols)
     g_score[celula_inicial] = 0
     f_score[celula_inicial] = g_score[celula_inicial] + h_score(celula_inicial, destino)
     print(f_score)
 
     fila = PriorityQueue()
-    item = (f_score[celula_inicial], h_score[celula_inicial, destino], celula_inicial)
+    item = (f_score[celula_inicial], h_score(celula_inicial, destino), celula_inicial)
     fila.put(item)
 
     caminho = {}
 
     while not fila.empty():
-        celula = fila.get()
+        celula = fila.get()[2]
 
         if celula == destino:
             break
         
         for direcao in "NSEW":
-            if Labirinto.maze_mao[celula][direcao] == 1:
+            if labirinto.maze_map[celula][direcao] == 1:
                 linha_celula = celula[0]
                 coluna_celula = celula[1]
                 if direcao == "N":
@@ -47,28 +49,35 @@ def aestrela(Labirinto):
                 if novo_f_score < f_score[proxima_celula]:
                     f_score[proxima_celula] = novo_f_score
                     g_score[proxima_celula] = novo_g_score
-                    item = ()
-                    fila.put(novo_f_score, h_score(proxima_celula, destino), proxima_celula)
+                    item = (novo_f_score, h_score(proxima_celula, destino), proxima_celula)
+                    fila.put(item)
                     caminho[proxima_celula] = celula
 
-        caminho_final = {}
+    caminho_final = {}
 
-        celula_analisada = destino
-        
-        while celula_analisada != celula_inicial:
-            caminho_final[caminho[celula_analisada]] = celula_analisada
-            celula_analisada = caminho[celula_analisada]
-        return caminho
+    celula_analisada = destino
+    print("Celulas analisadas", len(caminho.keys()))
+
+    while celula_analisada != celula_inicial:
+        caminho_final[caminho[celula_analisada]] = celula_analisada
+        celula_analisada = caminho[celula_analisada]
+    return caminho_final
                 
             
 
 
 
 
-labirinto = maze();
+labirinto = maze(100,100)
 labirinto.CreateMaze()
 
 agente = agent(labirinto, filled = True, footprints= True)
-caminho = "NWNWNWNWNWNWNW"
-labirinto.tracePath({agente: caminho}, delay = 300)
+
+caminho = aestrela(labirinto)
+
+
+labirinto.tracePath({agente: caminho}, delay = 10)
+
+print("Total de celulas", len(labirinto.maze_map.keys()))
+
 labirinto.run()
