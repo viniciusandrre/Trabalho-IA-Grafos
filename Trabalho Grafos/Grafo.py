@@ -33,7 +33,7 @@ def aestrela(labirinto):
     fila.put(item) # Adiciona o item à fila
 
     caminho = {} # Dicionário para rastrear o caminho (predecessores)
-    
+
     # Enquanto houver células na fila, continua a busca
     while not fila.empty():
 
@@ -82,24 +82,24 @@ def aestrela(labirinto):
         celula_analisada = caminho[celula_analisada]
     return caminho_final  #Retorna o caminho reconstruído
                 
-            
-
-
-
 # Cria um labirinto de tamanho 100x100
 labirinto = maze(100,100)
 labirinto.CreateMaze() # Gera o labirinto com caminhos e barreiras
 
 # Cria o agente que percorrerá o labirinto, configurado para preencher células percorridas
-agente = agent(labirinto, filled = True, footprints= True)
+agente1 = agent(labirinto, filled=True, footprints=True, color='red')  # Principal
+agente_destino = agent(labirinto, 1, 1, filled=True, color='green')  # Destino
 
 # Executa o algoritmo aestrela para encontrar o caminho
 caminho = aestrela(labirinto)
 
 # Traça o caminho no labirinto para visualização
-labirinto.tracePath({agente: caminho}, delay = 10)
+labirinto.tracePath({agente1: caminho}, delay = 10)
+labirinto.tracePath({agente_destino: []})
 
-# Exibe o número total de células no labirinto
+# Exibe informações das células analisadas
+print("Células analisadas:", len(caminho.keys()))
+# Exibe o número total de células no labirinto com o destino
 print("Total de celulas", len(labirinto.maze_map.keys()))
 
 # Executa a visualização gráfica do labirinto com o caminho traçado
