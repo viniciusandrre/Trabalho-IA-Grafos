@@ -1,4 +1,4 @@
-from pyamaze import maze, agent  # Importa as classes para gerar o labirinto e o agente que o percorre
+from pyamaze import maze, agent, COLOR, textLabel  # Importa as classes para gerar o labirinto, o agente que o percorre, cores e texto
 from queue import PriorityQueue  # Importa a fila de prioridade para a implementação do algoritmo aestrela
 import time  # Para medir o tempo de execução
 
@@ -102,7 +102,7 @@ def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celula
                 
 # Cria um labirinto de tamanho 100x100
 labirinto = maze(100,100)
-labirinto.CreateMaze() # Gera o labirinto com caminhos e barreiras
+labirinto.CreateMaze(theme=COLOR.light) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
 
 # Cria o agente que percorrerá o labirinto, configurado para preencher células percorridas
 agente1 = agent(labirinto, filled=True, footprints=True, color='red')  # Principal
@@ -130,9 +130,13 @@ celulas_analisadas = analisadas,
 total_celulas =  total_celulas
 )
 
+textLabel(labirinto, "Tempo de execução", round(tempo_execucao, 3)) #Coloca o tempo de execução na tela
+
+
 # Traça o caminho no labirinto para visualização
 labirinto.tracePath({agente1: caminho}, delay = 10)
 labirinto.tracePath({agente_destino: []})
+
 
 # Executa a visualização gráfica do labirinto com o caminho traçado
 labirinto.run()
