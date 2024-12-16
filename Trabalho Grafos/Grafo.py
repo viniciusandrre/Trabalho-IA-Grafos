@@ -111,6 +111,17 @@ caminho = aestrela(labirinto)
 fim = time.time()
 
 
+# Cálculo das métricas
+tempo_execucao = fim - inicio
+total_celulas = len(labirinto.grid)
+celulas_analisadas = len(caminho.keys())
+eficiencia = (celulas_analisadas / total_celulas) * 100
+custo_caminho = len(caminho)
+iteracoes = 0  # Substituído dentro da função aestrela
+
+# Exibe as métricas de desempenho
+exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celulas_analisadas, total_celulas)
+
 # Traça o caminho no labirinto para visualização
 labirinto.tracePath({agente1: caminho}, delay = 10)
 labirinto.tracePath({agente_destino: []})
