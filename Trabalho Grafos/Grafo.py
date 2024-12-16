@@ -7,8 +7,6 @@ destino = (1,1)
 
 # Função heurística que calcula a estimativa de custo restante até o destino
 def h_score(celula,destino):
-    
-
     linhac = celula[0] # Linha da célula atual
     colunac = celula[1]  # Coluna da célula atual
     linhad = destino[0]  # Linha do destino
@@ -19,7 +17,8 @@ def h_score(celula,destino):
 
 # Implementação do algoritmo aestrela para encontrar o caminho mais curto em um labirinto
 def aestrela(labirinto):
-    iteracoes = 0
+    iteracoes = 0 # Contador de iterações
+
     # Inicializa os custos f e g para todas as células no labirinto
 
     f_score = {celula: float("inf") for celula in labirinto.grid} # Custo total estimado (f = g + h)
@@ -106,17 +105,17 @@ agente1 = agent(labirinto, filled=True, footprints=True, color='red')  # Princip
 agente_destino = agent(labirinto, 1, 1, filled=True, color='green')  # Destino
 
 # Executa o algoritmo aestrela para encontrar o caminho
-inicio = time.time()
+inicio = time.time() #inicia o tempo
 caminho = aestrela(labirinto)
-fim = time.time()
+fim = time.time() # determina o fim do tempo
 
 
 # Cálculo das métricas
-tempo_execucao = fim - inicio
-total_celulas = len(labirinto.grid)
-celulas_analisadas = len(caminho.keys())
-eficiencia = (celulas_analisadas / total_celulas) * 100
-custo_caminho = len(caminho)
+tempo_execucao = fim - inicio #Determina o tempo de execução do código
+total_celulas = len(labirinto.grid) #Número total de células
+celulas_analisadas = len(caminho.keys()) #Células Analisadas
+eficiencia = (celulas_analisadas / total_celulas) * 100  #Eficiência da busca
+custo_caminho = len(caminho) #Total de passos para o fim do labirinto
 iteracoes = 0  # Substituído dentro da função aestrela
 
 # Exibe as métricas de desempenho
