@@ -17,7 +17,8 @@ def h_score(celula,destino):
 
 # Implementação do algoritmo aestrela para encontrar o caminho mais curto em um labirinto
 def aestrela(labirinto):
-    iteracoes = 0 # Contador de iterações
+    iteracoes = 0  # Contador de iterações
+    analisadas = set()  # Conjunto para armazenar todas as células visitadas
 
     # Inicializa os custos f e g para todas as células no labirinto
 
@@ -43,6 +44,8 @@ def aestrela(labirinto):
         
         # Obtém a célula de menor custo (desempacotando a tupla para pegar a célula)
         celula = fila.get()[2]
+
+        analisadas.add(celula)  # Marca a célula como visitada
         # Se alcançou o destino, sai do loop
         if celula == destino:
             break
@@ -84,7 +87,8 @@ def aestrela(labirinto):
     while celula_analisada != celula_inicial:
         caminho_final[caminho[celula_analisada]] = celula_analisada
         celula_analisada = caminho[celula_analisada]
-    return caminho_final  #Retorna o caminho reconstruído
+    print(f"Número de iterações realizadas: {iteracoes}")  # Exibe o número de iterações
+    return caminho_final, analisadas # Retorna o caminho reconstruído e as células visitadas
 
 # Exibição das métricas de desempenho
 def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celulas_analisadas, total_celulas):
@@ -93,7 +97,7 @@ def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celula
     print(f"Eficiência da busca: {eficiencia:.2f}%")
     print(f"Custo do caminho encontrado: {custo_caminho} passos")
     print(f"Número de iterações: {iteracoes}")
-    print(f"Células analisadas: {celulas_analisadas}")
+    print(f"Células analisadas (total): {len(celulas_analisadas)}")
     print(f"Total de células no labirinto: {total_celulas}")
                 
 # Cria um labirinto de tamanho 100x100
@@ -106,9 +110,8 @@ agente_destino = agent(labirinto, 1, 1, filled=True, color='green')  # Destino
 
 # Executa o algoritmo aestrela para encontrar o caminho
 inicio = time.time() #inicia o tempo
-caminho = aestrela(labirinto)
+caminho, analisadas = aestrela(labirinto) # Recebe o caminho e as células visitadas
 fim = time.time() # determina o fim do tempo
-
 
 # Cálculo das métricas
 tempo_execucao = fim - inicio #Determina o tempo de execução do código
@@ -116,10 +119,16 @@ total_celulas = len(labirinto.grid) #Número total de células
 celulas_analisadas = len(caminho.keys()) #Células Analisadas
 eficiencia = (celulas_analisadas / total_celulas) * 100  #Eficiência da busca
 custo_caminho = len(caminho) #Total de passos para o fim do labirinto
-iteracoes = 0  # Substituído dentro da função aestrela
 
 # Exibe as métricas de desempenho
-exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celulas_analisadas, total_celulas)
+exibir_metricas(
+tempo_execucao = tempo_execucao,
+eficiencia = eficiencia, 
+custo_caminho = custo_caminho, 
+iteracoes = len(analisadas), 
+celulas_analisadas = analisadas, 
+total_celulas =  total_celulas
+)
 
 # Traça o caminho no labirinto para visualização
 labirinto.tracePath({agente1: caminho}, delay = 10)
