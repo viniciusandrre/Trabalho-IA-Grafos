@@ -1,11 +1,14 @@
 from pyamaze import maze, agent  # Importa as classes para gerar o labirinto e o agente que o percorre
 from queue import PriorityQueue  # Importa a fila de prioridade para a implementação do algoritmo aestrela
+import time  # Para medir o tempo de execução
 
 # Define o destino no labirinto como a célula (1,1)
 destino = (1,1)
 
 # Função heurística que calcula a estimativa de custo restante até o destino
 def h_score(celula,destino):
+    
+
     linhac = celula[0] # Linha da célula atual
     colunac = celula[1]  # Coluna da célula atual
     linhad = destino[0]  # Linha do destino
@@ -16,6 +19,7 @@ def h_score(celula,destino):
 
 # Implementação do algoritmo aestrela para encontrar o caminho mais curto em um labirinto
 def aestrela(labirinto):
+    iteracoes = 0
     # Inicializa os custos f e g para todas as células no labirinto
 
     f_score = {celula: float("inf") for celula in labirinto.grid} # Custo total estimado (f = g + h)
@@ -36,7 +40,8 @@ def aestrela(labirinto):
 
     # Enquanto houver células na fila, continua a busca
     while not fila.empty():
-
+        iteracoes+=1
+        
         # Obtém a célula de menor custo (desempacotando a tupla para pegar a célula)
         celula = fila.get()[2]
         # Se alcançou o destino, sai do loop
@@ -81,6 +86,16 @@ def aestrela(labirinto):
         caminho_final[caminho[celula_analisada]] = celula_analisada
         celula_analisada = caminho[celula_analisada]
     return caminho_final  #Retorna o caminho reconstruído
+
+# Exibição das métricas de desempenho
+def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celulas_analisadas, total_celulas):
+    print("\n--- MÉTRICAS DE DESEMPENHO ---")
+    print(f"Tempo de execução: {tempo_execucao:.4f} segundos")
+    print(f"Eficiência da busca: {eficiencia:.2f}%")
+    print(f"Custo do caminho encontrado: {custo_caminho} passos")
+    print(f"Número de iterações: {iteracoes}")
+    print(f"Células analisadas: {celulas_analisadas}")
+    print(f"Total de células no labirinto: {total_celulas}")
                 
 # Cria um labirinto de tamanho 100x100
 labirinto = maze(100,100)
@@ -91,16 +106,14 @@ agente1 = agent(labirinto, filled=True, footprints=True, color='red')  # Princip
 agente_destino = agent(labirinto, 1, 1, filled=True, color='green')  # Destino
 
 # Executa o algoritmo aestrela para encontrar o caminho
+inicio = time.time()
 caminho = aestrela(labirinto)
+fim = time.time()
+
 
 # Traça o caminho no labirinto para visualização
 labirinto.tracePath({agente1: caminho}, delay = 10)
 labirinto.tracePath({agente_destino: []})
-
-# Exibe informações das células analisadas
-print("Células analisadas:", len(caminho.keys()))
-# Exibe o número total de células no labirinto com o destino
-print("Total de celulas", len(labirinto.maze_map.keys()))
 
 # Executa a visualização gráfica do labirinto com o caminho traçado
 labirinto.run()
