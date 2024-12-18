@@ -1,6 +1,7 @@
 from pyamaze import maze, agent, COLOR, textLabel  # Importa as classes para gerar o labirinto, o agente que o percorre, cores e texto
 from queue import PriorityQueue  # Importa a fila de prioridade para a implementação do algoritmo aestrela
 import time  # Para medir o tempo de execução
+import random
 
 # Define o destino no labirinto como a célula (1,1)
 destino = (1,1)
@@ -90,6 +91,11 @@ def aestrela(labirinto):
     print(f"Número de iterações realizadas: {iteracoes}")  # Exibe o número de iterações
     return caminho_final, analisadas # Retorna o caminho reconstruído e as células visitadas
 
+def adicionar_obstaculos_dinamicos(labirinto, quantidade=10):
+    for _ in range(quantidade):
+        x, y = random.choice(list(labirinto.grid.keys()))
+        labirinto.maze_map[(x, y)] = {'N': 0, 'S': 0, 'E': 0, 'W': 0}
+
 # Exibição das métricas de desempenho
 def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celulas_analisadas, total_celulas):
     print("\n--- MÉTRICAS DE DESEMPENHO ---")
@@ -134,7 +140,7 @@ textLabel(labirinto, "Tempo de execução", round(tempo_execucao, 3)) #Coloca o 
 
 
 # Traça o caminho no labirinto para visualização
-labirinto.tracePath({agente1: caminho}, delay = 10)
+labirinto.tracePath({agente1: caminho}, delay = 5)
 labirinto.tracePath({agente_destino: []})
 
 
