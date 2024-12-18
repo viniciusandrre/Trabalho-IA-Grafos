@@ -1,7 +1,6 @@
 from pyamaze import maze, agent, COLOR, textLabel  # Importa as classes para gerar o labirinto, o agente que o percorre, cores e texto
 from queue import PriorityQueue  # Importa a fila de prioridade para a implementação do algoritmo aestrela
 import time  # Para medir o tempo de execução
-import random
 
 # Define o destino no labirinto como a célula (1,1)
 destino = (1,1)
@@ -91,11 +90,6 @@ def aestrela(labirinto):
     print(f"Número de iterações realizadas: {iteracoes}")  # Exibe o número de iterações
     return caminho_final, analisadas # Retorna o caminho reconstruído e as células visitadas
 
-def adicionar_obstaculos_dinamicos(labirinto, quantidade=10):
-    for _ in range(quantidade):
-        x, y = random.choice(list(labirinto.grid.keys()))
-        labirinto.maze_map[(x, y)] = {'N': 0, 'S': 0, 'E': 0, 'W': 0}
-
 # Exibição das métricas de desempenho
 def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celulas_analisadas, total_celulas):
     print("\n--- MÉTRICAS DE DESEMPENHO ---")
@@ -107,8 +101,8 @@ def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celula
     print(f"Total de células no labirinto: {total_celulas}")
                 
 # Cria um labirinto de tamanho 100x100
-labirinto = maze(100,100)
-labirinto.CreateMaze(theme=COLOR.light) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
+labirinto = maze(10,10)
+labirinto.CreateMaze(theme=COLOR.light, loopPercent=0) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
 
 # Cria o agente que percorrerá o labirinto, configurado para preencher células percorridas
 agente1 = agent(labirinto, filled=True, footprints=True, color='red')  # Principal
@@ -138,11 +132,9 @@ total_celulas =  total_celulas
 
 textLabel(labirinto, "Tempo de execução", round(tempo_execucao, 3)) #Coloca o tempo de execução na tela
 
-
 # Traça o caminho no labirinto para visualização
-labirinto.tracePath({agente1: caminho}, delay = 5)
+labirinto.tracePath({agente1: caminho}, delay = 15)
 labirinto.tracePath({agente_destino: []})
-
 
 # Executa a visualização gráfica do labirinto com o caminho traçado
 labirinto.run()
