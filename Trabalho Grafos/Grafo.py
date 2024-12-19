@@ -104,7 +104,6 @@ def exibir_metricas(tempo_execucao, eficiencia, custo_caminho, iteracoes, celula
 def calcular_densidade(labirinto):
      # Conta o total de células no labirinto. Cada célula pode ter até 4 conexões possíveis (Norte, Sul, Leste, Oeste).
     total_celulas = len(labirinto.grid)
-    # Soma todas as conexões válidas (caminhos abertos) no labirinto.
     caminhos = sum([sum(cell.values()) for cell in labirinto.maze_map.values()])
     densidade = (caminhos / (4 * total_celulas)) * 100  # Percentual de caminhos
     print(f"Densidade do Labirinto: {densidade:.2f}%")
@@ -112,14 +111,14 @@ def calcular_densidade(labirinto):
                 
 # Cria um labirinto de tamanho 100x100
 labirinto = maze(100,100)
-labirinto.CreateMaze(theme=COLOR.light, loopPercent=0) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
+labirinto.CreateMaze(theme=COLOR.light) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
 
 # Calcula a densidade do labirinto
 calcular_densidade(labirinto)
 
 # Cria o agente que percorrerá o labirinto, configurado para preencher células percorridas
 agente1 = agent(labirinto, filled=True, footprints=True, color='red', shape='square')  # Principal
-agente_destino = agent(labirinto, 1, 1, filled=True, color='yellow')  # Destino
+agente_destino = agent(labirinto, 1, 1, filled=True, color='green')  # Destino
 
 # Executa o algoritmo aestrela para encontrar o caminho
 inicio = time.time() #inicia o tempo
@@ -129,7 +128,7 @@ fim = time.time() # determina o fim do tempo
 # Cálculo das métricas
 tempo_execucao = fim - inicio #Determina o tempo de execução do código
 total_celulas = len(labirinto.grid) #Número total de células
-celulas_analisadas = len(caminho.keys()) #Células Analisadas
+celulas_analisadas = len(analisadas) #Células Analisadas
 eficiencia = (celulas_analisadas / total_celulas) * 100  #Eficiência da busca
 custo_caminho = len(caminho) #Total de passos para o fim do labirinto
 
