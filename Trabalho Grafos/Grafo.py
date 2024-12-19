@@ -113,9 +113,6 @@ def calcular_densidade(labirinto):
 labirinto = maze(100,100)
 labirinto.CreateMaze(theme=COLOR.light) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
 
-# Calcula a densidade do labirinto
-calcular_densidade(labirinto)
-
 # Cria o agente que percorrerá o labirinto, configurado para preencher células percorridas
 agente1 = agent(labirinto, filled=True, footprints=True, color='red', shape='square')  # Principal
 agente_destino = agent(labirinto, 1, 1, filled=True, color='green')  # Destino
@@ -141,6 +138,9 @@ iteracoes = len(analisadas),
 celulas_analisadas = analisadas, 
 total_celulas =  total_celulas
 )
+
+# Calcula a densidade do labirinto
+calcular_densidade(labirinto)
 
 textLabel(labirinto, "Tempo de execução", round(tempo_execucao, 3)) #Coloca o tempo de execução na tela
 
