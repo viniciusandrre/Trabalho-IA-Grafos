@@ -110,7 +110,7 @@ def calcular_densidade(labirinto):
     return densidade
                 
 # Cria um labirinto de tamanho 100x100
-labirinto = maze(100,100)
+labirinto = maze(50,50)
 labirinto.CreateMaze(theme=COLOR.light) # Gera o labirinto com caminhos e barreiras, cor do labirinto branca
 
 # Cria o agente que percorrerá o labirinto, configurado para preencher células percorridas
